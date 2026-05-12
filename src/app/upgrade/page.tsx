@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 
-const WISE_LINK = process.env.NEXT_PUBLIC_WISE_PAYMENT_LINK || "";
+const WISE_LINK = "https://wise.com/pay/r/I9-js8OjBJZbffo";
 
 export default function UpgradePage() {
   const [user, setUser] = useState<any>(null);
