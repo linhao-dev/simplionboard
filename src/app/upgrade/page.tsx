@@ -12,14 +12,15 @@ export default function UpgradePage() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data.user) {
-        setUser(data.user);
-        const created = new Date(data.user.created_at).getTime();
+      const { data } = await supabase.auth.getSession();
+      const u = data.session?.user;
+      if (u) {
+        setUser(u);
+        const created = new Date(u.created_at).getTime();
         const trialEnd = created + 7 * 86400000; // 7 day trial
         const daysLeft = Math.ceil((trialEnd - Date.now()) / 86400000);
         setTrialDaysLeft(Math.max(0, daysLeft));
-        setPaid(data.user.user_metadata?.paid || false);
+        setPaid(u.user_metadata?.paid || false);
       }
     })();
   }, []);

@@ -3,20 +3,23 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { User } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) router.push("/login");
-      else setUser(data.user);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) router.push("/login");
+      else setSession(data.session);
+    }).catch(() => {
+      router.push("/login");
     });
   }, [router]);
 
-  if (!user) return <div className="flex items-center justify-center min-h-screen"><div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full" /></div>;
+  if (session === undefined) return <div className="flex items-center justify-center min-h-screen"><div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full" /></div>;
+  if (!session) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">

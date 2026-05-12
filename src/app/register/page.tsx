@@ -26,9 +26,9 @@ export default function RegisterPage() {
     if (error) {
       setError(error.message);
       setLoading(false);
-    } else {
-      router.push("/dashboard?welcome=1");
+      return;
     }
+    router.replace("/dashboard");
   };
 
   return (

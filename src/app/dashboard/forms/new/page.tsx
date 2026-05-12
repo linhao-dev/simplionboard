@@ -41,8 +41,8 @@ export default function NewFormPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    const { data: userData } = await supabase.auth.getUser();
-    const userId = userData.user?.id;
+    const { data: sessionData } = await supabase.auth.getSession();
+    const userId = sessionData.session?.user?.id;
     if (!userId) { toast.error("Please log in first"); return; }
 
     const { data, error } = await supabase.from("onboarding_forms").insert({

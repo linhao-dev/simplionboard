@@ -16,8 +16,8 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) { setError("Invalid email or password"); setLoading(false); }
-    else { router.push("/dashboard"); }
+    if (error) { setError("Invalid email or password"); setLoading(false); return; }
+    router.replace("/dashboard");
   };
 
   return (
